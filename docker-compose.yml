@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - DEV=true
+    container_name: todo-app-api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: >
+      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8080"
