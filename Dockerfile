@@ -7,6 +7,7 @@ ENV PATH="/py/bin:$PATH"
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 
+
 ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
@@ -21,6 +22,7 @@ RUN python -m venv /py && \
     apk del .tmp-build-deps 
 
 COPY ./app /app
+WORKDIR /app
 
 EXPOSE 8080
 
