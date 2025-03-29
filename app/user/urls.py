@@ -1,19 +1,29 @@
 """
-URL mapping for the user API
+URL mapping for the user API.
+
+This module defines all URL patterns related to user management including:
+- User creation
+- Authentication (login/logout)
+- JWT token management
+- User profile management
 """
-from django.urls import path
-from rest_framework_simplejwt.views import TokenRefreshView,TokenObtainPairView
+from typing import List
+from django.urls import path, URLPattern
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+)
 
 from user import views
 
-
 app_name = 'user'
 
-urlpatterns = [
+urlpatterns: List[URLPattern] = [
+    # User management endpoints
     path('create/', views.CreateUserView.as_view(), name='create'),
+    path('me/', views.ManageUserView.as_view(), name='me'),
+    
+    # Authentication endpoints
     path('login/', views.LoginView.as_view(), name='login'),
-    path('logout/',views.LogoutView.as_view(), name='logout'),
-    path('token/', TokenObtainPairView.as_view(),name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('me/', views.ManageUserView.as_view(), name='me')
+    path('logout/', views.LogoutView.as_view(), name='logout'),
 ]
