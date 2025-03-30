@@ -1,13 +1,12 @@
 """
 Views for the task API
 """
-from typing import Any, Dict
+from typing import Any
 from rest_framework import viewsets, status, response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
-from django.core.exceptions import ValidationError
 from core.models import Task
 from task import serializers
 from django.http import Http404
@@ -79,65 +78,21 @@ class TaskViewSet(viewsets.ModelViewSet):
             raise Http404("Task not found")
         return obj
     
-    def update(self, request: Any, *args: Any, **kwargs: Any) -> response.Response:
-        """
-        Update task with validation and error handling.
-        
-        Args:
-            request: The HTTP request
-            *args: Additional arguments
-            **kwargs: Additional keyword arguments
-            
-        Returns:
-            Response: Updated task data or error message
-        """
+    def update(self, request, *args, **kwargs):
+        """Update a task."""
         try:
-            instance = self.get_object()
-            serializer = self.get_serializer(instance, data=request.data, partial=True)
-            serializer.is_valid(raise_exception=True)
-            self.perform_update(serializer)
-            return response.Response(serializer.data)
-        except ValidationError as e:
-            return response.Response(
-                {'error': str(e)}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        except Task.DoesNotExist:
-            return response.Response(
-                {'error': 'Task not found'}, 
-                status=status.HTTP_404_NOT_FOUND
-            )
-        except Exception as e:
+            return super().update(request, *args, **kwargs)
+        except Exception:
             return response.Response(
                 {'error': 'An unexpected error occurred'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
     
-    def destroy(self, request: Any, *args: Any, **kwargs: Any) -> response.Response:
-        """
-        Delete a task with error handling.
-        
-        Args:
-            request: The HTTP request
-            *args: Additional arguments
-            **kwargs: Additional keyword arguments
-            
-        Returns:
-            Response: Success or error message
-        """
+    def destroy(self, request, *args, **kwargs):
+        """Delete a task."""
         try:
-            instance = self.get_object()
-            self.perform_destroy(instance)
-            return response.Response(
-                {'message': 'Task deleted successfully'}, 
-                status=status.HTTP_204_NO_CONTENT
-            )
-        except Task.DoesNotExist:
-            return response.Response(
-                {'error': 'Task not found'}, 
-                status=status.HTTP_404_NOT_FOUND
-            )
-        except Exception as e:
+            return super().destroy(request, *args, **kwargs)
+        except Exception:
             return response.Response(
                 {'error': 'An unexpected error occurred'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR

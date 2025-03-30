@@ -2,13 +2,11 @@
 Serializers for the user API View
 """
 from django.contrib.auth import get_user_model, authenticate
-from django.utils.translation import gettext as _
 from django.contrib.auth.password_validation import validate_password
 from django.core.cache import cache
-from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
-from rest_framework import serializers, status
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):

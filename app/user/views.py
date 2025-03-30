@@ -111,7 +111,7 @@ class LogoutView(generics.GenericAPIView):
                 status=status.HTTP_200_OK
             )
             
-        except Exception as e:
+        except Exception:
             return Response(
                 {'error': 'Invalid refresh token'}, 
                 status=status.HTTP_400_BAD_REQUEST
