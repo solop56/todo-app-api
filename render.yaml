@@ -3,8 +3,8 @@ services:
     name: todo-app-api
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: python manage.py migrate && gunicorn todo.wsgi:application
+    buildCommand: cd app && pip install -r ../requirements.txt
+    startCommand: cd app && python manage.py migrate && gunicorn todo.wsgi:application
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
