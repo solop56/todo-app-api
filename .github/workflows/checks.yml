@@ -8,7 +8,7 @@ jobs:
     name: Test and Lint
     runs-on: ubuntu-latest
     env:
-      DB_HOST: localhost
+      DB_HOST: db
       DB_NAME: test_db
       DB_USER: test_user
       DB_PASS: test_password
