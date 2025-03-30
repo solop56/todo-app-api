@@ -17,7 +17,7 @@ from rest_framework import status
 
 # API Endpoint URLs
 CREATE_USER_URL = reverse('user:create')
-TOKEN_URL = reverse('user:token_obtain_pair')
+TOKEN_URL = reverse('user:login')
 TOKEN_RERESH_URL = reverse('user:token_refresh')
 LOGOUT_URL = reverse('user:logout')
 ME_URL = reverse('user:me')
