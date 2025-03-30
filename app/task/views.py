@@ -28,6 +28,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'description']
     ordering_fields = ['created_at', 'due_date', 'priority']
     ordering = ['-created_at']
+    queryset = Task.objects.none()  # Base queryset for OpenAPI schema
     
     def get_queryset(self) -> Task.objects:
         """

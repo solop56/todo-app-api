@@ -4,32 +4,10 @@ Serializer for task management.
 from rest_framework import serializers
 from core.models import Task
 from django.utils import timezone
-from django.core.validators import MinLengthValidator
 
 class TaskSerializer(serializers.ModelSerializer):
     """Serializer for task operations."""
     
-    title = serializers.CharField(
-        max_length=255,
-        validators=[MinLengthValidator(3)]
-    )
-    description = serializers.CharField(
-        required=False,
-        allow_blank=True,
-        allow_null=True
-    )
-    status = serializers.ChoiceField(
-        choices=Task.STATUS_CHOICES,
-        default='pending'
-    )
-    priority = serializers.ChoiceField(
-        choices=Task.PRIORITY_CHOICES,
-        default='medium'
-    )
-    due_date = serializers.DateField(
-        required=False,
-        allow_null=True
-    )
     user = serializers.PrimaryKeyRelatedField(
         read_only=True
     )

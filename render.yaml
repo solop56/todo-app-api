@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: todo-app-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python manage.py migrate && gunicorn todo.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: DB_HOST
+        fromDatabase:
+          name: todo_db
+          property: host
+      - key: DB_NAME
+        fromDatabase:
+          name: todo_db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: todo_db
+          property: user
+      - key: DB_PASS
+        fromDatabase:
+          name: todo_db
+          property: password
+      - key: DB_PORT
+        fromDatabase:
+          name: todo_db
+          property: port
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: ALLOWED_HOSTS
+        value: "todo-app-api.onrender.com"
+
+databases:
+  - name: todo_db
+    databaseName: todo_db
+    user: todo_db 

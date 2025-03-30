@@ -6,7 +6,7 @@ This module contains views for user management including:
 - Authentication (login/logout)
 - User profile management
 """
-from typing import Any, Dict
+from typing import Any
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
