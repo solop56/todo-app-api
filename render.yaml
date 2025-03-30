@@ -2,6 +2,7 @@ services:
   - type: web
     name: todo-app-api
     env: python
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: python manage.py migrate && gunicorn todo.wsgi:application
     envVars:
@@ -37,4 +38,5 @@ services:
 databases:
   - name: todo_db
     databaseName: todo_db
-    user: todo_db 
+    user: todo_db
+    plan: free 
