@@ -26,4 +26,5 @@ urlpatterns: List[URLPattern] = [
     path('login/', views.LoginView.as_view(), name='login'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('users/', views.UserListView.as_view(), name='users'),
 ]

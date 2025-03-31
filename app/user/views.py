@@ -12,10 +12,11 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.throttling import UserRateThrottle
 from rest_framework import serializers
 
+from core.models import User
 from user.serializers import UserSerializer, AuthTokenSerializer, LogoutSerializer
 
 
@@ -138,3 +139,22 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
             The currently authenticated user instance
         """
         return self.request.user
+    
+class UserListView(generics.ListAPIView):
+    """List all users in the system.
+    
+    This view allows non authenticated users to view a list of all registered users.
+    """
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        """Get all users."""
+        return self.queryset.all()
+    
+    def list(self, request, *args, **kwargs):
+        """List all users."""
+        return super().list(request, *args, **kwargs)
+    
+        
