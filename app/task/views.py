@@ -10,6 +10,9 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from core.models import Task
 from task import serializers
 from django.http import Http404
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -86,9 +89,10 @@ class TaskViewSet(viewsets.ModelViewSet):
         """Update a task."""
         try:
             return super().update(request, *args, **kwargs)
-        except Exception:
+        except Exception as e:
+            logger.error(f"Update error: {str(e)}", exc_info=True)
             return response.Response(
-                {'error': 'An unexpected error occurred'}, 
+                {'error': f'An unexpected error occurred: {str(e)}'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
     
