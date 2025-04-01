@@ -27,7 +27,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'description']
     ordering_fields = ['created_at', 'due_date', 'priority']
     ordering = ['-created_at']
-    queryset = Task.objects.none()  # Base queryset for OpenAPI schema
+    queryset = Task.objects.all()
     
     def get_queryset(self) -> Task.objects:
         """
@@ -36,7 +36,11 @@ class TaskViewSet(viewsets.ModelViewSet):
         Returns:
             QuerySet: Filtered and ordered tasks for the current user
         """
-        return Task.objects.filter(user=self.request.user)
+        return (
+            Task.objects.filter(user=self.request.user)
+            .order_by('-id')
+            .distinct()
+        )
     
     def perform_create(self, serializer: serializers.TaskDetails) -> None:
         """
